@@ -1,28 +1,42 @@
 const contatosCollection = require("../model/contatoSchema");
 
-const getAll = (request, response) => {
-  console.log(request.url);
-  //response.status(200).send(model.agenda);
-};
+// const getAll = (request, response) => {
+//   console.log(request.url);
+//   //response.status(200).send(model.agenda);
+// };
 
 // const getById = (request, response) => {
 //   const id = request.params.id;
 //   response.status(200).send(contatos.find(tarefa => tarefa.id == id));
 // };
 const pushAdd = (request, response) => {
+  // novo objeto para a nossa coleção
     const contatoDoBory = request.body
     const contato = new contatosCollection(contatoDoBory)
 
     contato.save((error) => {
+      //if(error !== null && error !== underfined)
       if(error) {
         return response.status(400).send(error)
       }else{
         return response.status(201).send(contato)
       }
     })
+};
 
-}
 
+const getAll = (request, response) =>{
+//response.status(200).send(model.agenda)
+  console.log(request.url)
+  contatosCollection.find((error,contatos) => {
+    if(error){
+      return response.status(500).send(error)
+    } else {
+      return response.status(200).send(contatos)
+    }
+  })
+
+};
 
 
 // const pushAdd = (request,response) => {
