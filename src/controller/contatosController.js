@@ -24,11 +24,60 @@ const pushAdd = (request, response) => {
     })
 };
 
+const getById = (request,response) =>{
+   const idParam = request.params.id
+   contatosCollection.findById(idParam,(error,contato) => {    
+    if(error){
+      return response.status(500).send(error)
+    } else {
+      if(contato){
+        return response.status(200).send(contato)
+      } else{
+        return response.status(404).send("Contato não encontrado")
+      }
+    }
+  })
+}
+
+const getByName = (request, response) =>{
+  const nomeParam = request.params.nome
+  const regex = new RegExp(nomeParam)
+  const filtro = { nome: regex }
+  console.log(nomeParam)
+ 
+    contatosCollection.find(filtro,(error, contatos) => {
+      if(error){
+        return response.status(500).send(error)
+      } else {
+        return response.status(200).send(contatos)
+      }
+    })
+  
+  };
+
+
+  const deletarById = (request, response) => {
+    const idParam = request.params.id
+    contatosCollection.findOneAndDelete(idParam, (error,contato) => {
+      if(error){
+        return response.status(500).send(error)
+    } else{
+      if(contato){
+       return response.status(200).send('Contato excluído com sucesso') 
+      } else{
+        return response.sendStatus(404)
+      }
+    }
+    
+   })
+  }
+
 
 const getAll = (request, response) =>{
 //response.status(200).send(model.agenda)
   console.log(request.url)
   contatosCollection.find((error,contatos) => {
+
     if(error){
       return response.status(500).send(error)
     } else {
@@ -57,7 +106,10 @@ const getAll = (request, response) =>{
 
 
 module.exports = {
+  getById,
+  getByName,
   getAll,
+  deletarById,
   pushAdd
 
 }

@@ -12,12 +12,18 @@ const ContatoSchema = new Schema( {
         type: String,
         required: true,
         unique: true // não deixa que os dados seja igual 
-
     },
     celular: {
-
         type: String,
         required: true
+    },
+    dataNascimento: {
+        type: Date,
+        required: true
+    },
+    fotoPerfil: {
+        type: String ,
+        require: true
     }
 
 })
